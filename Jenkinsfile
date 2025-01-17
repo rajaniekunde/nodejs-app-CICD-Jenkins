@@ -8,32 +8,28 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Ensure you fetch from the correct branch, such as 'main'
-                script {
-                    // You can use the 'checkout scm' directive if this pipeline is set up in a multi-branch project
-                    git branch: 'main', url: 'https://github.com/rajaniekunde/nodejs-app-CICD-Jenkins.git'
-                }
+                git 'https://github.com/rajaniekunde/nodejs-app-CICD-Jenkins.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install' // Use bat for Windows shell compatibility
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npm test' // Replace with actual test command or remove if no tests
+                bat 'npm test' // Replace with actual test command or remove if no tests
             }
         }
 
         stage('Start Application') {
             steps {
-                sh '''
-                pkill -f "node index.js" || true
-                nohup node index.js &
-                '''
+                bat '''
+                taskkill /F /IM node.exe || echo "No existing node process to kill"
+                start /B node index.js
+                ''' // Windows equivalent of pkill and nohup
             }
         }
     }
