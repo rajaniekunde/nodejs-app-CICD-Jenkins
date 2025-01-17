@@ -1,41 +1,39 @@
 pipeline {
     agent any
 
-    environment {
-        // Set any environment variables here
+    tools {
+        nodejs 'NodeJS 22.12.0' // Use the Node.js version configured in Jenkins
     }
 
     stages {
-        stage('Checkout SCM') {
+        stage('Clone Repository') {
             steps {
-                checkout scm
+                // Ensure you fetch from the correct branch, such as 'main'
+                script {
+                    // You can use the 'checkout scm' directive if this pipeline is set up in a multi-branch project
+                    git branch: 'main', url: 'https://github.com/rajaniekunde/nodejs-app-CICD-Jenkins.git'
+                }
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    // Use bat for Windows shell commands
-                    bat 'npm install'
-                }
+                sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    // Adjust the command if necessary
-                    bat 'npm test'
-                }
+                sh 'npm test' // Replace with actual test command or remove if no tests
             }
         }
 
         stage('Start Application') {
             steps {
-                script {
-                    // Replace this with Windows-compatible start command if needed
-                    bat 'npm start'
-                }
+                sh '''
+                pkill -f "node index.js" || true
+                nohup node index.js &
+                '''
             }
         }
     }
