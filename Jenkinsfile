@@ -23,7 +23,7 @@ pipeline {
                 bat '''
                 echo "Attempting to start Node.js app..."
                 start /B node index.js > app.log 2>&1
-                timeout /t 10
+               
                 echo "Node.js app should be running now."
                 '''
             }
