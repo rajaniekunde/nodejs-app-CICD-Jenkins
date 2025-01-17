@@ -28,8 +28,9 @@ pipeline {
             steps {
                 bat '''
                 taskkill /F /IM node.exe || echo "No existing node process to kill"
-                start /B node index.js
-                ''' // Windows equivalent of pkill and nohup
+                echo "Attempting to start Node.js app..."
+                start /B node index.js > app.log 2>&1
+                ''' // Logging the output for better visibility
             }
         }
     }
