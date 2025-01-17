@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/rajaniekunde/nodejs-app-CICD-Jenkins.git'
+                git branch: 'main', url: 'https://github.com/rajaniekunde/nodejs-app-CICD-Jenkins.git' // Use the main branch
             }
         }
 
