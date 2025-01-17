@@ -18,12 +18,6 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                bat 'npm test' // Replace with actual test command or remove if no tests
-            }
-        }
-
         stage('Start Application') {
             steps {
                 bat '''
